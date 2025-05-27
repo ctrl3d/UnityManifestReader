@@ -1,23 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{9f8db00f-cb3a-6120-acf1-b88714657a31}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityManifestReader", "UnityManifestReader.csproj", "{dbff17ea-2f3c-a32c-1dfb-050652c8c99b}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{36c7a203-549d-9ced-5955-a0274075e376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityManifestReader.Editor", "UnityManifestReader.Editor.csproj", "{9301e0c7-ca8a-63ed-836b-6c8dfcd38dbf}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9f8db00f-cb3a-6120-acf1-b88714657a31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9f8db00f-cb3a-6120-acf1-b88714657a31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{dbff17ea-2f3c-a32c-1dfb-050652c8c99b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{dbff17ea-2f3c-a32c-1dfb-050652c8c99b}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36c7a203-549d-9ced-5955-a0274075e376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36c7a203-549d-9ced-5955-a0274075e376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9301e0c7-ca8a-63ed-836b-6c8dfcd38dbf}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9301e0c7-ca8a-63ed-836b-6c8dfcd38dbf}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

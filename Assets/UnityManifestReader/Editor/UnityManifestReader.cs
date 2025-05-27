@@ -212,5 +212,45 @@ namespace work.ctrl3d.UnityManifestReader
 
             return openUpmScopes;
         }
+        
+        public static string GetPackageVersionFromCache(string packageName)
+        {
+            try
+            {
+                var packageCachePath = Path.Combine(Application.dataPath, "..", "Library", "PackageCache");
+
+                if (!Directory.Exists(packageCachePath))
+                {
+                    return "패키지 캐시 디렉터리를 찾을 수 없습니다";
+                }
+
+                // 지정된 패키지 폴더 찾기
+                var packageDirectories = Directory.GetDirectories(packageCachePath, $"{packageName}@*");
+
+                if (packageDirectories.Length == 0)
+                {
+                    return $"{packageName} 패키지를 찾을 수 없습니다";
+                }
+
+                // 폴더 이름에서 버전 추출 (패키지명@버전 형식)
+                var folderName = Path.GetFileName(packageDirectories[0]);
+                var version = folderName.Split('@')[1];
+
+                // package.json에서 정확한 버전 확인
+                var packageJsonPath = Path.Combine(packageDirectories[0], "package.json");
+
+                if (!File.Exists(packageJsonPath)) return version;
+
+                var jsonData = File.ReadAllText(packageJsonPath);
+                var packageJson = JObject.Parse(jsonData);
+                version = packageJson["version"]?.ToString() ?? version;
+
+                return version;
+            }
+            catch (Exception ex)
+            {
+                return $"패키지 버전을 가져오는 데 실패했습니다: {ex.Message}";
+            }
+        }
     }
 }

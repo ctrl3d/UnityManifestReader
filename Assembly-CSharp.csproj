@@ -950,9 +950,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="UnityManifestReader.csproj">
-      <Project>{dbff17ea-2f3c-a32c-1dfb-050652c8c99b}</Project>
-      <Name>UnityManifestReader</Name>
+    <ProjectReference Include="UnityManifestReader.Editor.csproj">
+      <Project>{9301e0c7-ca8a-63ed-836b-6c8dfcd38dbf}</Project>
+      <Name>UnityManifestReader.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

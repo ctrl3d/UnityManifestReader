@@ -1,8 +1,10 @@
 {
-    "name": "UnityManifestReader",
+    "name": "UnityManifestReader.Editor",
     "rootNamespace": "work.ctrl3d",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
