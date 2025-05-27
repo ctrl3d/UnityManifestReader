@@ -16,7 +16,7 @@ namespace work.ctrl3d.UnityManifestReader
             OpenUpm,
             Standard
         }
-        
+
         [Serializable]
         public class PackageInfo
         {
@@ -31,7 +31,7 @@ namespace work.ctrl3d.UnityManifestReader
                 Url = url;
                 Type = type;
             }
-            
+
             public string GetVersionFromCache(string packageName)
             {
                 try
