@@ -1,1 +1,1 @@
-https://github.com/ctrl3d/UnityMenifestReader.git?path=Assets/UnityMenifestReader
+https://github.com/ctrl3d/UnityManifestReader.git?path=Assets/UnityManifestReader
