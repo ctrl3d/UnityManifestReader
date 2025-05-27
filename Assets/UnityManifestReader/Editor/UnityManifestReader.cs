@@ -23,7 +23,7 @@ namespace work.ctrl3d.UnityManifestReader
             public string Name { get; }
             public string Url { get; }
             public PackageType Type { get; }
-            public string Version => GetVersionFromUrl();
+            public string Version => GetVersionFromCache(Name);
 
             public PackageInfo(string name, string url, PackageType type)
             {
@@ -31,34 +31,53 @@ namespace work.ctrl3d.UnityManifestReader
                 Url = url;
                 Type = type;
             }
-
-            private string GetVersionFromUrl()
+            
+            public string GetVersionFromCache(string packageName)
             {
-                // Git URL에서 버전 정보 추출
-                if (Url.Contains("#", StringComparison.Ordinal))
+                try
                 {
-                    return Url.Split('#').Last();
-                }
+                    var packageCachePath = Path.Combine(Application.dataPath, "..", "Library", "PackageCache");
 
-                // 일반 버전 번호인 경우
-                if (!Url.Contains("http", StringComparison.OrdinalIgnoreCase) &&
-                    !Url.Contains("git", StringComparison.OrdinalIgnoreCase))
+                    if (!Directory.Exists(packageCachePath))
+                    {
+                        Debug.LogError("Package cache directory not found");
+                        return "";
+                    }
+
+                    // 지정된 패키지 폴더 찾기
+                    var packageDirectories = Directory.GetDirectories(packageCachePath, $"{packageName}@*");
+
+                    if (packageDirectories.Length == 0)
+                    {
+                        Debug.LogError($"Package {packageName} not found in cache");
+                        return "";
+                    }
+
+                    // 폴더 이름에서 버전 추출 (패키지명@버전 형식)
+                    var folderName = Path.GetFileName(packageDirectories[0]);
+                    var version = folderName.Split('@')[1];
+
+                    // package.json에서 정확한 버전 확인
+                    var packageJsonPath = Path.Combine(packageDirectories[0], "package.json");
+
+                    if (!File.Exists(packageJsonPath)) return version;
+
+                    var jsonData = File.ReadAllText(packageJsonPath);
+                    var packageJson = JObject.Parse(jsonData);
+                    version = packageJson["version"]?.ToString() ?? version;
+
+                    return version;
+                }
+                catch (Exception ex)
                 {
-                    return Url;
+                    Debug.LogError($"Failed to get package version: {ex.Message}");
+                    return "";
                 }
-
-                // Git URL에서 태그나 브랜치 추출 시도
-                if (Url.Contains("@", StringComparison.Ordinal))
-                {
-                    return Url.Split('@').Last();
-                }
-
-                return "unknown";
             }
 
             public override string ToString()
             {
-                if (string.IsNullOrEmpty(Version) || Version == "unknown")
+                if (string.IsNullOrEmpty(Version))
                 {
                     return $"{Name} (URL: {Url})";
                 }
@@ -211,46 +230,6 @@ namespace work.ctrl3d.UnityManifestReader
             }
 
             return openUpmScopes;
-        }
-        
-        public static string GetPackageVersionFromCache(string packageName)
-        {
-            try
-            {
-                var packageCachePath = Path.Combine(Application.dataPath, "..", "Library", "PackageCache");
-
-                if (!Directory.Exists(packageCachePath))
-                {
-                    return "패키지 캐시 디렉터리를 찾을 수 없습니다";
-                }
-
-                // 지정된 패키지 폴더 찾기
-                var packageDirectories = Directory.GetDirectories(packageCachePath, $"{packageName}@*");
-
-                if (packageDirectories.Length == 0)
-                {
-                    return $"{packageName} 패키지를 찾을 수 없습니다";
-                }
-
-                // 폴더 이름에서 버전 추출 (패키지명@버전 형식)
-                var folderName = Path.GetFileName(packageDirectories[0]);
-                var version = folderName.Split('@')[1];
-
-                // package.json에서 정확한 버전 확인
-                var packageJsonPath = Path.Combine(packageDirectories[0], "package.json");
-
-                if (!File.Exists(packageJsonPath)) return version;
-
-                var jsonData = File.ReadAllText(packageJsonPath);
-                var packageJson = JObject.Parse(jsonData);
-                version = packageJson["version"]?.ToString() ?? version;
-
-                return version;
-            }
-            catch (Exception ex)
-            {
-                return $"패키지 버전을 가져오는 데 실패했습니다: {ex.Message}";
-            }
         }
     }
 }
